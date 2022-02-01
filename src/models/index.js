@@ -44,6 +44,7 @@ const Category = CategoryFactory(sequelize)
 Character.belongsToMany(Category, {through: 'CharactersCategory'})
 //Category.belongsToMany(Character, {through: 'CharactersCategory'})
 Category.belongsTo(Generes,{through: 'CategoryGeneres'})
+Generes.belongsToMany(Category,{through: 'CategoryGeneres'})
 
 
   

@@ -1,69 +1,38 @@
-const {Character} = require('../models/index')
+const axios = require('axios')
+const {Character, Category } = require('../models/index')
+const ModelCrud = require('./index')
 
-function getAllCaracters(req, res, next){
-    return Character.findAll()
-    .then((Character)=> res.send(Character))
-    .catch((error)=> next(error))
-    // res.send('soy la ruta get  de characters')
-}
-
-function getCharacterbyId(req, res, next){
-    const id = req.params.id
-    return Character.findByPk(id)
-    .then((Character)=> res.send(Character))
-    .catch((error)=> next(error))
-    //res.send('soy la ruta get por id de characters')
-}
-
-function postNewCharacter(req, res, next){
-    const character = req.body
-    return Character.create({
-        ...character,
-        //id: uuidv4()
-    })
-    .then((Character)=> res.send(Character))
-    .catch((error)=> next(error))
-    //res.send('soy la ruta post de characters')
-}
-
-function updateCharacter (req, res, next){
-    const id = req.params.id;
-    // console.log(id, 'id')
-    const character = req.body;
-    // console.log(character, 'character')
-    return Character.update(character, {
-        where: {
-            id,
-        },
-    })
-    .then((updatedCharacter)=>{
-        // console.log("updated")
-        res.send(updatedCharacter)
-    })
-    .catch((error)=> next(error))
-    //res.send('soy la ruta put de characters')
-}
-
-function deleteCharacter (req, res, next){
-    const id = req.params.id
-    return Character.destroy({
-        where: {
-            id,
-        },
-    })
-    .then(()=>{
-        console.log("deleted")
-        res.sendStatus(200)
-    })
-    .catch((error)=> next(error))
-    //res.send('soy la ruta delete de characters')
+class CharacterModel extends ModelCrud{
+    constructor(model){
+        super(model)
+    }
+    getAll = (req, res, next) =>{
+        const mycharacter = this.model
+        .findAll({
+            include: {
+                model : Category,
+            }
+        })
+        Promise.all([mycharacter])
+        .then((results)=> {
+            const [mycharacterResult] = results 
+            res.send(mycharacterResult)})
+        .catch((error)=> next(error))
+        // res.send('soy la ruta get  de characters')
+    }
+    addCategoryToCharacter = (req, res, next)=>{
+            const {characterId, ctargoryId} = req.params
+            this.model.findByPk(characterId)
+            .then(character =>{
+               return character.addCategory(ctargoryId)
+            })
+            .then(()=>{res.sendStatus(200)})
+            .catch((error)=> next(error))
+    }
 }
 
 
-module.exports = {
-    getAllCaracters,
-    getCharacterbyId,
-    postNewCharacter,
-    updateCharacter,
-    deleteCharacter
-}
+const characterController = new CharacterModel(Character)
+
+
+module.exports = characterController

@@ -1,24 +1,22 @@
 const {Router} = require('express');
 //const { v4: uuiddv4 } = require('uuid')
 const {Character} = require('../models/index')
-const {getAllCaracters,
-    getCharacterbyId,
-    postNewCharacter,
-    updateCharacter,
-    deleteCharacter} =require('../controllers/chracters')
+const characterController =require('../controllers/chracters')
 
 
 const router = Router()
 
-router.get('/',getAllCaracters)
+router.get('/',characterController.getAll)
 
-router.get('/:id',getCharacterbyId)
+router.get('/:id',characterController.getById)
 
-router.post('/',postNewCharacter)
+router.post('/',characterController.add)
 
-router.put('/:id',updateCharacter)
+router.post('/:characterId/category/:categoryId',characterController.addCategoryToCharacter)
 
-router.delete('/:id',deleteCharacter)
+router.put('/:id',characterController.update)
+
+router.delete('/:id',characterController.delete)
 
 
 

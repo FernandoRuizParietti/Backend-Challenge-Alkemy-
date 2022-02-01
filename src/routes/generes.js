@@ -1,23 +1,19 @@
 const {Router} = require('express');
 const {Generes} = require('../models/index')
-const { getAllGeneres,
-    getGeneresbyId,
-    postNewGenere,
-    updateGenere,
-    deleteGenere}  = require('../controllers/generes')
+const generesController =require('../controllers/generes')
 
 
 const router = Router()
 
-router.get('/',getAllGeneres)
+router.get('/',generesController.getAll)
 
-router.get('/:id',getGeneresbyId)
+router.get('/:id',generesController.getById)
 
-router.post('/',postNewGenere)
+router.post('/',generesController.add)
 
-router.put('/:id',updateGenere)
+router.put('/:id',generesController.update)
 
-router.delete('/:id',deleteGenere)
+router.delete('/:id',generesController.delete)
 
 
 module.exports = router;
