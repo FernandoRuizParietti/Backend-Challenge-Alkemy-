@@ -14,6 +14,8 @@ router.post('/',characterController.add)
 
 router.post('/:characterId/category/:categoryId',characterController.addCategoryToCharacter)
 
+//router.post('/:characterId/generes/:genereId',characterController.addGenereToCharacter)
+
 router.put('/:id',characterController.update)
 
 router.delete('/:id',characterController.delete)

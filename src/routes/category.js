@@ -11,6 +11,8 @@ router.get('/:id',categoryController.getById)
 
 router.post('/',categoryController.add)
 
+router.post('/:categoryId/genere/:genereId',categoryController.addGenereToCategory)
+
 router.put('/:id',categoryController.update)
 
 router.delete('/:id',categoryController.delete)

@@ -6,6 +6,9 @@ const path = require('path');
 const CharacterFactory = require('./Characters')
 const GeneresFactory = require('./Generes')
 const CategoryFactory = require('./Category')
+const UserFactory = require('./User')
+const RoleFactory = require('./Rol')
+
 const {
     DB_USER, DB_PASSWORD, DB_HOST, DB_NAME,
   } = process.env;
@@ -36,6 +39,12 @@ sequelize.models = Object.fromEntries(capsEntries);
 const Character = CharacterFactory(sequelize)
 const Generes = GeneresFactory(sequelize)
 const Category = CategoryFactory(sequelize)
+const User = UserFactory(sequelize)
+const Role = RoleFactory(sequelize)
+
+// console.log(Character,'character')
+// console.log(User, 'User')
+// console.log(Role, 'Role')
 
 // const { Category, Characters, Generes} = sequelize.models;
 
@@ -46,6 +55,9 @@ Character.belongsToMany(Category, {through: 'CharactersCategory'})
 Category.belongsTo(Generes,{through: 'CategoryGeneres'})
 Generes.belongsToMany(Category,{through: 'CategoryGeneres'})
 
+User.belongsTo(Role);
+Role.hasMany(User);
+
 
   
 
@@ -54,4 +66,6 @@ module.exports = {
     Character,
     Generes,
     Category,
+    User,
+    Role,
 };

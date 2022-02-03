@@ -17,8 +17,17 @@ class CategoryModel extends ModelCrud{
             const [mycategoryResult] = results 
             res.send(mycategoryResult)})
         .catch((error)=> next(error))
-       
+      
     }
+    addGenereToCategory = (req, res, next)=>{
+            const {categoryId, genereId} = req.params
+            this.model.findByPk(categoryId)
+            .then((category) =>{
+               return category.addGenere(genereId)
+            })
+            .then(()=>{res.sendStatus(200)})
+            .catch((error)=> next(error))
+    }   
 }
 
 

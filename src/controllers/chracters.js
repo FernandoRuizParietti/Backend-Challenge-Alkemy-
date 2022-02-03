@@ -21,10 +21,10 @@ class CharacterModel extends ModelCrud{
         // res.send('soy la ruta get  de characters')
     }
     addCategoryToCharacter = (req, res, next)=>{
-            const {characterId, ctargoryId} = req.params
+            const {characterId, categoryId} = req.params
             this.model.findByPk(characterId)
-            .then(character =>{
-               return character.addCategory(ctargoryId)
+            .then((character) =>{
+               return character.addCategory(categoryId)
             })
             .then(()=>{res.sendStatus(200)})
             .catch((error)=> next(error))
