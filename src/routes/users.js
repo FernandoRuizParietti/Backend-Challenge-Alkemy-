@@ -108,18 +108,5 @@ router.post("/resetPassword/:token", resetPassword); //localhost/users/resetpass
 //activa la cuenta con el token envíado por email en tokenGerator
 router.post("/activateAccount/:token", validateUser); //localhost/users/resetpassword/token
 
-///añade a wishlist
-router.post("/wishlist", async (req, res) => {
-    try {
-        let user = await User.findOne({ where: { email: req.body.email } });
-        await user.addShoe(req.body.shoeId, { through: Wishlist });
-        res.json(await User.findOne({ where: { email: req.body.email }, include: [{ model: Shoe }] }));
-    } catch (error) {
-        console.log(error);
-    }
-});
-
-
-
 
 module.exports = router;
